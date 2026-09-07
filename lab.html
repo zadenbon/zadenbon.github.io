@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Lab, zadenbon (bhnyy)</title>
+<meta name="description" content="Live HTML, CSS and JavaScript systems by zadenbon (bhnyy), naive version next to the one that ships.">
+<meta name="theme-color" content="#0a0710">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMwYTA3MTAiLz48dGV4dCB4PSIzMiIgeT0iNDEiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Yzg2ZDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPiZsdDsvJmd0OzwvdGV4dD48L3N2Zz4=">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Lab, zadenbon (bhnyy)">
+<meta property="og:description" content="Live HTML, CSS and JavaScript systems by zadenbon (bhnyy), naive version next to the one that ships.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Lab, zadenbon (bhnyy)">
+<meta name="twitter:description" content="Live HTML, CSS and JavaScript systems by zadenbon (bhnyy), naive version next to the one that ships.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0710; --panel:#130d20; --panel-2:#191228;
+    --line:rgba(255,255,255,.10); --line-strong:rgba(149,117,224,.35);
+    --ink:#ece7f7; --muted:#948da8;
+    --accent:#35226b; --accent-bright:#9c86d6; --accent-wash:rgba(149,117,224,.10);
+    --good:#4ee08a; --bad:#e05a5a;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', ui-sans-serif, sans-serif;
+    --radius:6px;
+  }
+  *{box-sizing:border-box;}
+  html.has-cursor, html.has-cursor *{cursor:none;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.65; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--mono); font-weight:600; margin:0; letter-spacing:-.01em;}
+  p{margin:0;}
+  ::selection{background:var(--accent); color:#fff;}
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+
+  .ambient{position:fixed; inset:0; z-index:1; pointer-events:none; mix-blend-mode:soft-light; opacity:0; transition:opacity .4s ease; background:radial-gradient(380px circle at var(--mx,50%) var(--my,20%), rgba(149,117,224,.6), transparent 72%);}
+  .ambient.on{opacity:.5;}
+
+  header{position:sticky; top:0; z-index:50; background:rgba(10,7,16,.92); border-bottom:1px solid var(--line);}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; height:62px;}
+  .brand{font-family:var(--mono); font-size:14px; text-decoration:none;}
+  .brand b{color:var(--accent-bright); font-weight:600;}
+  .navlinks{display:flex; gap:26px; list-style:none; margin:0; padding:0; font-size:13.5px; font-family:var(--mono);}
+  .navlinks a{text-decoration:none; color:var(--muted); transition:color .15s ease;}
+  .navlinks a:hover{color:var(--ink);}
+
+  .intro{max-width:900px; margin:0 auto; padding:80px 24px 46px; position:relative; z-index:2;}
+  .kicker{font-family:var(--mono); font-size:12.5px; color:var(--accent-bright); margin-bottom:10px;}
+  .intro h1{font-size:clamp(2.1rem,5.5vw,3rem);}
+  .intro p{color:var(--muted); max-width:62ch; margin-top:18px; font-size:1rem;}
+
+  .index-list{display:flex; flex-wrap:wrap; gap:8px; margin:32px 0 0;}
+  .index-list a{font-family:var(--mono); font-size:12.5px; color:var(--muted); text-decoration:none; border:1px solid var(--line); padding:7px 12px; border-radius:5px; transition:border-color .15s ease, color .15s ease;}
+  .index-list a:hover{border-color:var(--accent-bright); color:var(--ink);}
+  .index-list a b{color:var(--accent-bright); font-weight:500;}
+
+  .demo{max-width:900px; margin:0 auto; padding:68px 24px; border-top:1px solid var(--line); position:relative; z-index:2;}
+  .demo-tag{font-family:var(--mono); font-size:12px; color:var(--accent-bright); margin-bottom:10px;}
+  .demo h2{font-size:1.55rem; margin-bottom:14px;}
+  .demo > p.desc{color:var(--muted); max-width:66ch; margin-bottom:8px; font-size:.98rem;}
+  .demo > p.why{color:var(--muted); max-width:66ch; margin:16px 0 26px; font-size:.92rem; border-left:2px solid var(--accent); padding-left:14px;}
+
+  .stage{border:1px solid var(--line); background:var(--panel); border-radius:8px; padding:26px; display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .stat-row{display:flex; gap:20px; font-family:var(--mono); font-size:12.5px; color:var(--muted); flex-wrap:wrap; justify-content:center;}
+  .stat-row b{color:var(--ink); font-weight:500;}
+  .stat-row b.good{color:var(--good);}
+  .stat-row b.bad{color:var(--bad);}
+  .controls{display:flex; gap:8px; flex-wrap:wrap; justify-content:center;}
+  .btn{font-family:var(--mono); font-size:12.5px; padding:9px 14px; border-radius:var(--radius); border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; transition:border-color .15s ease, background .15s ease;}
+  .btn:hover{border-color:var(--accent-bright);}
+  .btn.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .btn.primary:hover{background:#432c85;}
+  .hint{font-family:var(--mono); font-size:11.5px; color:var(--muted); text-align:center;}
+
+  .code-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px;}
+  @media (max-width:680px){ .code-pair{grid-template-columns:1fr;} }
+  .code-block span.label{display:block; font-family:var(--mono); font-size:10.5px; color:var(--muted); margin-bottom:7px;}
+  .code-block.naive span.label{color:var(--bad);}
+  .code-block.shipped span.label{color:var(--good);}
+  pre{background:#0d0912; border:1px solid var(--line); border-radius:6px; padding:15px 16px; overflow-x:auto; margin:0;}
+  code{font-family:var(--mono); font-size:11.5px; color:#cfc9de; line-height:1.7;}
+  .kw{color:var(--accent-bright);} .fn{color:#c792ea;}
+
+  canvas{background:#0d0912; border:1px solid var(--line); border-radius:6px; max-width:100%; display:block;}
+  #lightCanvas{touch-action:none;}
+
+  .resize-frame{position:relative; width:340px; max-width:100%; border:1px dashed var(--line-strong); border-radius:6px; padding:14px; background:var(--panel-2); overflow:auto;}
+  .resize-handle{position:absolute; top:0; right:-6px; width:12px; height:100%; cursor:ew-resize; display:flex; align-items:center; justify-content:center;}
+  .resize-handle::after{content:''; width:4px; height:36px; border-radius:3px; background:var(--accent-bright);}
+  .layout-content table{width:100%; table-layout:fixed; border-collapse:collapse;}
+  .layout-content td{border:1px solid var(--line); padding:10px; font-size:12px; color:var(--muted);}
+  .layout-content .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:8px;}
+  .layout-content .card-mini{background:var(--panel); border:1px solid var(--line); border-radius:5px; padding:10px; font-size:12px; color:var(--muted); text-align:center;}
+
+  .render-stage{position:relative; width:100%; height:200px; background:#0d0912; border:1px solid var(--line); border-radius:6px; overflow:hidden;}
+  .rdot{position:absolute; width:6px; height:6px; border-radius:50%; background:var(--accent-bright); top:0; left:0; will-change:transform;}
+
+  .debounce-input{width:100%; max-width:420px; padding:11px 13px; border-radius:6px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); font-family:var(--sans); font-size:14px;}
+
+  .lazy-strip{display:flex; gap:9px; overflow-x:auto; width:100%; max-width:560px; padding:6px; scroll-behavior:smooth;}
+  .lazy-block{flex:none; width:58px; height:58px; border-radius:6px; background:var(--panel-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; color:var(--muted); transition:background .3s ease, color .3s ease;}
+  .lazy-block.loaded{background:var(--accent); color:#fff; border-color:var(--accent-bright);}
+
+  .mini-form{width:100%; max-width:340px; display:grid; gap:11px;}
+  .mini-form label{font-family:var(--mono); font-size:11.5px; color:var(--muted); display:block; margin-bottom:5px;}
+  .mini-form input{width:100%; padding:9px 11px; border-radius:6px; border:1px solid var(--line); background:var(--panel-2); color:var(--ink); font-family:var(--sans); font-size:14px;}
+  .field-error{font-family:var(--mono); font-size:11px; color:var(--bad); min-height:15px;}
+  .mini-form button{margin-top:4px;}
+
+  .kb-row{display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
+  .fake-btn, .real-btn{padding:13px 20px; border-radius:6px; font-family:var(--mono); font-size:12.5px; background:var(--panel-2); border:1px solid var(--line); color:var(--ink);}
+  .fake-btn{cursor:pointer;}
+  .real-btn{cursor:pointer;}
+  .fake-btn:hover, .real-btn:hover{border-color:var(--accent-bright);}
+  .subhead{font-family:var(--mono); font-size:13px; color:var(--ink); margin:30px 0 14px; font-weight:500;}
+  .subhead:first-of-type{margin-top:0;}
+
+  footer{border-top:1px solid var(--line); padding:30px 24px; text-align:center; position:relative; z-index:2;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:var(--mono); font-size:12px; color:var(--muted);}
+
+  .cursor-dot{position:fixed; top:0; left:0; width:5px; height:5px; background:var(--accent-bright); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%);}
+  .cursor-ring{position:fixed; top:0; left:0; width:28px; height:28px; border:1px solid var(--accent-bright); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .16s ease, height .16s ease, background .16s ease;}
+  .cursor-ring.is-active{width:44px; height:44px; background:var(--accent-wash);}
+  .cursor-ring .tag{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:9.5px; color:var(--accent-bright); opacity:0; transition:opacity .12s ease;}
+  .cursor-ring.is-active .tag{opacity:1;}
+  .cursor-trail{position:fixed; top:0; left:0; width:3px; height:3px; border-radius:50%; background:var(--accent-bright); pointer-events:none; z-index:9997; transform:translate(-50%,-50%) scale(1); opacity:.4; transition:opacity .45s ease, transform .45s ease;}
+  button:focus-visible, a:focus-visible, input:focus-visible, .fake-btn:focus-visible, .real-btn:focus-visible{outline:2px solid var(--accent-bright); outline-offset:3px;}
+
+  .skip-link{position:fixed; top:-60px; left:16px; z-index:10000; background:var(--accent); color:#fff; font-family:var(--mono); font-size:13px; padding:10px 16px; border-radius:6px; text-decoration:none; transition:top .15s ease;}
+  .skip-link:focus{top:16px;}
+
+  @media (max-width:420px){
+    .brand-sub{display:none;}
+    .navlinks{gap:16px; font-size:12px;}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ambient" id="ambient"></div>
+
+<header>
+  <nav class="wrap">
+    <a class="brand" href="index.html">zadenbon <b class="brand-sub">(bhnyy)</b></a>
+    <ul class="navlinks">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+<div class="intro">
+  <div class="kicker">The Lab</div>
+  <h1>Break my work</h1>
+  <p>Seven small systems running live in the browser. Each one worth building shows a naive version next to the one I'd actually ship, so it's clear where the naive approach falls apart. Plain HTML, CSS, and JavaScript, no framework, no build step.</p>
+  <div class="index-list">
+    <a href="#lighting"><b>01</b> Dynamic lighting</a>
+    <a href="#layout"><b>02</b> Layout</a>
+    <a href="#render"><b>03</b> Render cost</a>
+    <a href="#collision"><b>04</b> Collision at scale</a>
+    <a href="#debounce"><b>05</b> Debounce</a>
+    <a href="#lazy"><b>06</b> Lazy loading</a>
+    <a href="#access"><b>07</b> Accessibility</a>
+  </div>
+</div>
+
+<section class="demo" id="lighting">
+  <div class="demo-tag">01 / Graphics, canvas · Interactive</div>
+  <h2>Dynamic lighting and shadows</h2>
+  <p class="desc">Move your mouse over the scene. The light follows it and casts real shadows from the obstacles in its path. Leave the scene and it drifts on its own.</p>
+  <p class="why">A flat glow is a gradient. A real light has to work out which edges of each obstacle face it, extend those edges away from itself, and darken everything behind that line. That's what's actually happening here, recalculated every frame, not a pre-baked effect.</p>
+  <div class="stage">
+    <div class="stat-row">Obstacles: <b id="lightObstacles">4</b> · Mode: <b id="lightMode">following mouse</b></div>
+    <canvas id="lightCanvas" width="800" height="260" aria-hidden="true"></canvas>
+    <p class="hint">Move over the canvas to steer the light</p>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>ctx.fillStyle = glow;
+ctx.fillRect(0, 0, w, h);</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code><span class="kw">const</span> edge = <span class="fn">silhouetteOf</span>(light, rect);
+<span class="kw">const</span> shadow = <span class="fn">projectAway</span>(light, edge, 1000);
+ctx.fill(<span class="fn">shadowPath</span>(shadow));</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="layout">
+  <div class="demo-tag">02 / Layout · Interactive</div>
+  <h2>Reflow: table vs. grid</h2>
+  <p class="desc">Same three cards, two ways to lay them out. Drag the frame narrower and watch what happens to each.</p>
+  <p class="why">A table forces fixed columns, so it either overflows or crushes its own content at small widths. Grid renegotiates the columns itself, no media query written for every screen size that exists.</p>
+  <div class="stage">
+    <div class="stat-row">Frame width: <b id="layoutWidth">340px</b> · Overflowing: <b id="layoutOverflow">no</b></div>
+    <div class="resize-frame" id="resizeFrame" style="width:340px;">
+      <div class="layout-content" id="layoutContent"></div>
+      <div class="resize-handle" id="resizeHandle" title="Drag to resize"></div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="btnGrid">CSS Grid, shipped</button>
+      <button class="btn" id="btnTable">Table layout, naive</button>
+    </div>
+    <p class="hint">Drag the handle on the right edge of the frame</p>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>&lt;<span class="kw">table</span>&gt;
+  &lt;<span class="kw">tr</span>&gt;
+    &lt;<span class="kw">td</span>&gt;Card&lt;/<span class="kw">td</span>&gt;
+    &lt;<span class="kw">td</span>&gt;Card&lt;/<span class="kw">td</span>&gt;
+    &lt;<span class="kw">td</span>&gt;Card&lt;/<span class="kw">td</span>&gt;
+  &lt;/<span class="kw">tr</span>&gt;
+&lt;/<span class="kw">table</span>&gt;</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code>.cards {
+  <span class="fn">display</span>: grid;
+  <span class="fn">grid-template-columns</span>:
+    repeat(auto-fit, minmax(100px, 1fr));
+  <span class="fn">gap</span>: 8px;
+}</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="render">
+  <div class="demo-tag">03 / Rendering · Interactive</div>
+  <h2>Repaint cost: position vs. transform</h2>
+  <p class="desc">Same dots, same movement, same bounce logic. The only difference is which CSS property moves them.</p>
+  <p class="why">Changing top and left makes the browser recalculate layout for every affected element, every frame. Transform skips layout and hands the job straight to the compositor, which is why some pages feel choppy the moment there's more than a handful of moving parts.</p>
+  <div class="stage">
+    <div class="stat-row">FPS: <b id="renderFps" class="good">60</b> · Dots: <b id="renderCount">200</b> · Mode: <b id="renderMode">shipped</b></div>
+    <div class="render-stage" id="renderStage" aria-hidden="true"></div>
+    <div class="controls">
+      <button class="btn primary" id="btnTransform">transform, shipped</button>
+      <button class="btn" id="btnTopLeft">top / left, naive</button>
+      <button class="btn" id="btnCount60">60 dots</button>
+      <button class="btn primary" id="btnCount200">200 dots</button>
+      <button class="btn" id="btnCount500">500 dots</button>
+    </div>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>el.style.top = y + <span class="fn">'px'</span>;
+el.style.left = x + <span class="fn">'px'</span>;</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code>el.style.transform =
+  <span class="fn">`translate(${x}px, ${y}px)`</span>;</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="collision">
+  <div class="demo-tag">04 / Algorithms, canvas · Interactive</div>
+  <h2>Collision at scale</h2>
+  <p class="desc">The same moving dots, checked for overlap two different ways. Push the count up and watch the gap widen.</p>
+  <p class="why">Checking every dot against every other dot costs n squared comparisons. Sorting dots into a grid first means each one only checks its own cell and the eight around it, so the work grows with the scene instead of exploding with it.</p>
+  <div class="stage">
+    <div class="stat-row">Checks this frame: <b id="collChecks">0</b> · Naive would run: <b id="collNaive">0</b> · Mode: <b id="collMode">spatial hash</b></div>
+    <canvas id="collCanvas" width="760" height="220" aria-hidden="true"></canvas>
+    <div class="controls">
+      <button class="btn primary" id="btnHash">Spatial hash, shipped</button>
+      <button class="btn" id="btnBrute">Check every pair, naive</button>
+      <button class="btn" id="btnColl80">80 dots</button>
+      <button class="btn primary" id="btnColl200">200 dots</button>
+      <button class="btn" id="btnColl400">400 dots</button>
+    </div>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code><span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; n; i++) {
+  <span class="kw">for</span> (<span class="kw">let</span> j = i + 1; j &lt; n; j++) {
+    <span class="fn">checkPair</span>(points[i], points[j]);
+  }
+}</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code><span class="kw">const</span> grid = <span class="fn">bucket</span>(points, cellSize);
+<span class="kw">for</span> (<span class="kw">const</span> p <span class="kw">of</span> points) {
+  <span class="kw">for</span> (<span class="kw">const</span> q <span class="kw">of</span> <span class="fn">neighborsOf</span>(p, grid)) {
+    <span class="fn">checkPair</span>(p, q);
+  }
+}</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="debounce">
+  <div class="demo-tag">05 / Events · Interactive</div>
+  <h2>Debounce</h2>
+  <p class="desc">Type in the box. Every mode sends a simulated request, watch how many actually fire.</p>
+  <p class="why">A search box wired to fire on every keystroke sends a request per letter typed. Waiting for a short pause first turns twelve requests into one, without the person typing noticing any delay.</p>
+  <div class="stage">
+    <div class="stat-row">Requests fired: <b id="debounceCount">0</b> · Mode: <b id="debounceMode">debounced</b></div>
+    <input class="debounce-input" id="debounceInput" type="text" placeholder="Type something">
+    <div class="controls">
+      <button class="btn primary" id="btnDebounced">Debounced 300ms, shipped</button>
+      <button class="btn" id="btnInstant">Every keystroke, naive</button>
+      <button class="btn" id="btnResetDebounce">Reset count</button>
+    </div>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>input.addEventListener(<span class="fn">'input'</span>, () =&gt;
+  <span class="fn">sendRequest</span>(input.value)
+);</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code><span class="kw">function</span> <span class="fn">debounce</span>(fn, ms) {
+  <span class="kw">let</span> t;
+  <span class="kw">return</span> (...a) =&gt; {
+    clearTimeout(t);
+    t = setTimeout(() =&gt; fn(...a), ms);
+  };
+}</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="lazy">
+  <div class="demo-tag">06 / Loading · Interactive</div>
+  <h2>Lazy loading</h2>
+  <p class="desc">Scroll the strip sideways. Watch how many blocks load and when.</p>
+  <p class="why">Loading every image up front spends bandwidth on content nobody has scrolled to yet. An observer that watches the viewport loads things right as they're about to matter, not a moment before.</p>
+  <div class="stage">
+    <div class="stat-row">Loaded: <b id="lazyCount">0</b>/16 · Mode: <b id="lazyMode">lazy</b></div>
+    <div class="lazy-strip" id="lazyStrip"></div>
+    <div class="controls">
+      <button class="btn primary" id="btnLazy">IntersectionObserver, shipped</button>
+      <button class="btn" id="btnEager">Load all upfront, naive</button>
+    </div>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>blocks.forEach(b =&gt; <span class="fn">load</span>(b));</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code><span class="kw">const</span> io = <span class="kw">new</span> IntersectionObserver(es =&gt; {
+  es.forEach(e =&gt; {
+    <span class="kw">if</span> (e.isIntersecting) {
+      <span class="fn">load</span>(e.target);
+      io.unobserve(e.target);
+    }
+  });
+});
+blocks.forEach(b =&gt; io.observe(b));</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" id="access">
+  <div class="demo-tag">07 / Accessibility · Interactive</div>
+  <h2>Validation and keyboard reach</h2>
+  <p class="desc">Two small checks that decide whether a page actually works for everyone, not just a mouse and a sighted user.</p>
+  <p class="why">A silent form makes a person guess what's wrong. A div with a click handler is invisible to a keyboard. Both are easy to miss in a demo and both show up immediately in real use.</p>
+
+  <h3 class="subhead">Live validation</h3>
+  <div class="stage">
+    <div class="stat-row">Mode: <b id="formMode">live and accessible</b></div>
+    <form class="mini-form" id="miniForm">
+      <div>
+        <label for="fname">Name</label>
+        <input id="fname" type="text" placeholder="Your name">
+      </div>
+      <div>
+        <label for="femail">Email</label>
+        <input id="femail" type="text" placeholder="you@example.com">
+        <div class="field-error" id="femailError" aria-live="polite"></div>
+      </div>
+      <button class="btn primary" type="submit" id="formSubmit">Submit</button>
+    </form>
+    <div class="controls">
+      <button class="btn primary" id="btnLiveForm">Live and accessible, shipped</button>
+      <button class="btn" id="btnSilentForm">Silent, naive</button>
+    </div>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>form.addEventListener(<span class="fn">'submit'</span>, e =&gt; {
+  e.preventDefault();
+  <span class="kw">if</span> (!isValidEmail(email.value)) <span class="kw">return</span>;
+});</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code>email.addEventListener(<span class="fn">'input'</span>, () =&gt; {
+  errorEl.textContent = isValidEmail(email.value)
+    ? <span class="fn">''</span>
+    : <span class="fn">'Enter a valid email'</span>;
+});</code></pre></div>
+  </div>
+
+  <h3 class="subhead">Keyboard reach</h3>
+  <div class="stage">
+    <div class="stat-row">Last activated via: <b id="kbStatus">none yet</b></div>
+    <div class="kb-row">
+      <div class="fake-btn" id="fakeBtn">Fake button, div</div>
+      <button class="real-btn" id="realBtn">Real button</button>
+    </div>
+    <p class="hint">Tab past the fake one, it isn't there for a keyboard</p>
+  </div>
+  <div class="code-pair">
+    <div class="code-block naive"><span class="label">naive</span><pre><code>&lt;<span class="kw">div</span> onclick=<span class="fn">"activate()"</span>&gt;
+  Click me
+&lt;/<span class="kw">div</span>&gt;</code></pre></div>
+    <div class="code-block shipped"><span class="label">shipped</span><pre><code>&lt;<span class="kw">button</span> onclick=<span class="fn">"activate()"</span>&gt;
+  Click me
+&lt;/<span class="kw">button</span>&gt;</code></pre></div>
+  </div>
+</section>
+
+<section class="demo" style="text-align:center;">
+  <h2>Seen enough?</h2>
+  <p class="desc" style="margin:14px auto 0;">All seven of these are hand written, same as the rest of the site.</p>
+  <div class="controls" style="margin-top:22px;">
+    <a class="btn primary" href="index.html#contact">Hire me</a>
+    <a class="btn" href="index.html#work">Back to the work</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© zadenbon (bhnyy)</span>
+    <span>Hand-coded, no framework</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!fine || reduced) return;
+
+  document.documentElement.classList.add('has-cursor');
+  var ambient = document.getElementById('ambient');
+  ambient.classList.add('on');
+
+  var dot = document.createElement('div'); dot.className = 'cursor-dot';
+  var ring = document.createElement('div'); ring.className = 'cursor-ring';
+  ring.innerHTML = '<span class="tag">&lt;/&gt;</span>';
+  document.body.appendChild(dot); document.body.appendChild(ring);
+
+  var mx=-100,my=-100,rx=-100,ry=-100,lastTrail=0,ticking=false;
+  window.addEventListener('mousemove', function(e){
+    mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px';
+    if(!ticking){
+      ticking = true;
+      requestAnimationFrame(function(){
+        document.documentElement.style.setProperty('--mx', mx+'px');
+        document.documentElement.style.setProperty('--my', my+'px');
+        ticking = false;
+      });
+    }
+    var now = performance.now();
+    if(now - lastTrail > 45){
+      lastTrail = now;
+      var t = document.createElement('div'); t.className='cursor-trail';
+      t.style.left=mx+'px'; t.style.top=my+'px';
+      document.body.appendChild(t);
+      requestAnimationFrame(function(){ t.style.opacity='0'; t.style.transform='translate(-50%,-50%) scale(.2)'; });
+      setTimeout(function(){ t.remove(); }, 480);
+    }
+  });
+  (function loop(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  var hoverSel = 'a, button, input, textarea, .fake-btn, .real-btn, .index-list a, .resize-handle, canvas';
+  document.addEventListener('mouseover', function(e){ if(e.target.closest(hoverSel)) ring.classList.add('is-active'); });
+  document.addEventListener('mouseout', function(e){ if(e.target.closest(hoverSel)) ring.classList.remove('is-active'); });
+})();
+
+(function(){
+  var canvas = document.getElementById('lightCanvas');
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+
+  var obstacles = [
+    {x:110, y:50, w:90, h:36},
+    {x:330, y:150, w:120, h:32},
+    {x:540, y:40, w:56, h:120},
+    {x:630, y:170, w:110, h:38}
+  ];
+
+  function corners(r){
+    return [
+      {x:r.x, y:r.y},
+      {x:r.x+r.w, y:r.y},
+      {x:r.x+r.w, y:r.y+r.h},
+      {x:r.x, y:r.y+r.h}
+    ];
+  }
+
+  function silhouette(light, pts){
+    var n = pts.length, out = [];
+    for(var i=0;i<n;i++){
+      var a = pts[i], b = pts[(i+1)%n], prev = pts[(i-1+n)%n];
+      var curCross = (b.x-a.x)*(light.y-a.y) - (b.y-a.y)*(light.x-a.x);
+      var prevCross = (a.x-prev.x)*(light.y-prev.y) - (a.y-prev.y)*(light.x-prev.x);
+      if((curCross < 0) !== (prevCross < 0)) out.push(a);
+    }
+    return out;
+  }
+
+  function shadowPath(light, p1, p2){
+    var f = 30;
+    var q1 = {x: light.x + (p1.x-light.x)*f, y: light.y + (p1.y-light.y)*f};
+    var q2 = {x: light.x + (p2.x-light.x)*f, y: light.y + (p2.y-light.y)*f};
+    var path = new Path2D();
+    path.moveTo(p1.x, p1.y);
+    path.lineTo(p2.x, p2.y);
+    path.lineTo(q2.x, q2.y);
+    path.lineTo(q1.x, q1.y);
+    path.closePath();
+    return path;
+  }
+
+  var lightX = w/2, lightY = h/2, targetX = lightX, targetY = lightY, hovering = false, t = 0;
+  var modeEl = document.getElementById('lightMode');
+
+  canvas.addEventListener('pointermove', function(e){
+    var rect = canvas.getBoundingClientRect();
+    var scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+    targetX = (e.clientX - rect.left) * scaleX;
+    targetY = (e.clientY - rect.top) * scaleY;
+    hovering = true;
+    modeEl.textContent = 'following mouse';
+  });
+  canvas.addEventListener('pointerleave', function(){
+    hovering = false;
+    modeEl.textContent = 'idle sweep';
+  });
+
+  var lightVisible = true;
+  var lightObserver = new IntersectionObserver(function(entries){
+    lightVisible = entries[0].isIntersecting;
+  }, {threshold: 0.05});
+  lightObserver.observe(canvas);
+
+  function frame(){
+    if(!lightVisible){ requestAnimationFrame(frame); return; }
+    t += 0.012;
+    if(!hovering){
+      targetX = w/2 + Math.cos(t) * 240;
+      targetY = h/2 + Math.sin(t*1.3) * 70;
+    }
+    lightX += (targetX - lightX) * 0.09;
+    lightY += (targetY - lightY) * 0.09;
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#0d0912';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.globalCompositeOperation = 'lighter';
+    var grad = ctx.createRadialGradient(lightX, lightY, 0, lightX, lightY, 300);
+    grad.addColorStop(0, 'rgba(156,134,214,0.55)');
+    grad.addColorStop(1, 'rgba(156,134,214,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(10,7,16,0.94)';
+    var light = {x:lightX, y:lightY};
+    obstacles.forEach(function(r){
+      var pts = corners(r);
+      var s = silhouette(light, pts);
+      if(s.length === 2) ctx.fill(shadowPath(light, s[0], s[1]));
+    });
+
+    ctx.fillStyle = '#191228';
+    ctx.strokeStyle = 'rgba(149,117,224,0.4)';
+    obstacles.forEach(function(r){
+      ctx.fillRect(r.x, r.y, r.w, r.h);
+      ctx.strokeRect(r.x, r.y, r.w, r.h);
+    });
+
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = '#c8b8ec';
+    ctx.beginPath();
+    ctx.arc(lightX, lightY, 4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+(function(){
+  var frame = document.getElementById('resizeFrame');
+  var content = document.getElementById('layoutContent');
+  var handle = document.getElementById('resizeHandle');
+  var widthStat = document.getElementById('layoutWidth');
+  var overflowStat = document.getElementById('layoutOverflow');
+  var mode = 'grid';
+
+  var tableMarkup = '<table><tr><td>Starter plan</td><td>Team plan</td><td>Studio plan</td></tr></table>';
+  var gridMarkup = '<div class="cards"><div class="card-mini">Starter plan</div><div class="card-mini">Team plan</div><div class="card-mini">Studio plan</div></div>';
+
+  function render(){
+    content.innerHTML = mode === 'grid' ? gridMarkup : tableMarkup;
+    checkOverflow();
+  }
+  function checkOverflow(){
+    var over = content.scrollWidth > frame.clientWidth + 2;
+    overflowStat.textContent = over ? 'yes' : 'no';
+    overflowStat.className = over ? 'bad' : 'good';
+  }
+  var btnGrid = document.getElementById('btnGrid'), btnTable = document.getElementById('btnTable');
+  btnGrid.addEventListener('click', function(){ mode='grid'; render(); btnGrid.classList.add('primary'); btnTable.classList.remove('primary'); });
+  btnTable.addEventListener('click', function(){ mode='table'; render(); btnTable.classList.add('primary'); btnGrid.classList.remove('primary'); });
+
+  var dragging = false;
+  handle.style.touchAction = 'none';
+  handle.addEventListener('pointerdown', function(e){ dragging = true; handle.setPointerCapture(e.pointerId); e.preventDefault(); });
+  window.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    var rect = frame.getBoundingClientRect();
+    var wpx = Math.max(180, Math.min(560, e.clientX - rect.left));
+    frame.style.width = wpx + 'px';
+    widthStat.textContent = Math.round(wpx) + 'px';
+    checkOverflow();
+  });
+  window.addEventListener('pointerup', function(){ dragging = false; });
+  render();
+})();
+
+(function(){
+  var stage = document.getElementById('renderStage');
+  var fpsEl = document.getElementById('renderFps');
+  var countEl = document.getElementById('renderCount');
+  var modeEl = document.getElementById('renderMode');
+  var mode = 'transform', dots = [];
+
+  function build(n){
+    stage.innerHTML = ''; dots = [];
+    var w = stage.clientWidth, h = stage.clientHeight;
+    for(var i=0;i<n;i++){
+      var el = document.createElement('div'); el.className = 'rdot';
+      stage.appendChild(el);
+      dots.push({el:el, x:Math.random()*w, y:Math.random()*h, dx:(Math.random()-.5)*3, dy:(Math.random()-.5)*3});
+    }
+    countEl.textContent = n;
+  }
+  var renderVisible = true;
+  var renderObserver = new IntersectionObserver(function(entries){
+    var wasVisible = renderVisible;
+    renderVisible = entries[0].isIntersecting;
+    if(renderVisible && !wasVisible){ lastT = performance.now(); frames = 0; }
+  }, {threshold: 0.05});
+  renderObserver.observe(stage);
+
+  var lastT = performance.now(), frames = 0;
+  function step(now){
+    if(!renderVisible){ requestAnimationFrame(step); return; }
+    var w = stage.clientWidth, h = stage.clientHeight;
+    dots.forEach(function(d){
+      d.x += d.dx; d.y += d.dy;
+      if(d.x<0||d.x>w-6) d.dx*=-1;
+      if(d.y<0||d.y>h-6) d.dy*=-1;
+      if(mode === 'transform'){
+        d.el.style.transform = 'translate(' + d.x + 'px,' + d.y + 'px)';
+      } else {
+        d.el.style.left = d.x + 'px'; d.el.style.top = d.y + 'px';
+      }
+    });
+    frames++;
+    if(now - lastT >= 500){
+      var fps = Math.round((frames * 1000) / (now - lastT));
+      fpsEl.textContent = fps;
+      fpsEl.className = fps >= 50 ? 'good' : (fps >= 30 ? '' : 'bad');
+      frames = 0; lastT = now;
+    }
+    requestAnimationFrame(step);
+  }
+  var btnTransform = document.getElementById('btnTransform'), btnTopLeft = document.getElementById('btnTopLeft');
+  btnTransform.addEventListener('click', function(){ mode='transform'; modeEl.textContent='shipped'; btnTransform.classList.add('primary'); btnTopLeft.classList.remove('primary'); });
+  btnTopLeft.addEventListener('click', function(){ mode='naive'; modeEl.textContent='naive'; btnTopLeft.classList.add('primary'); btnTransform.classList.remove('primary'); });
+  var countBtns = [document.getElementById('btnCount60'), document.getElementById('btnCount200'), document.getElementById('btnCount500')];
+  function selectCount(btn, n){ countBtns.forEach(function(b){ b.classList.remove('primary'); }); btn.classList.add('primary'); build(n); }
+  countBtns[0].addEventListener('click', function(){ selectCount(countBtns[0], 60); });
+  countBtns[1].addEventListener('click', function(){ selectCount(countBtns[1], 200); });
+  countBtns[2].addEventListener('click', function(){ selectCount(countBtns[2], 500); });
+  build(200);
+  requestAnimationFrame(step);
+})();
+
+(function(){
+  var canvas = document.getElementById('collCanvas');
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+  var checksEl = document.getElementById('collChecks');
+  var naiveEl = document.getElementById('collNaive');
+  var modeEl = document.getElementById('collMode');
+  var mode = 'hash', pts = [], cellSize = 34;
+
+  function build(n){
+    pts = [];
+    for(var i=0;i<n;i++){
+      pts.push({x:Math.random()*w, y:Math.random()*h, dx:(Math.random()-.5)*2.4, dy:(Math.random()-.5)*2.4, hit:false});
+    }
+  }
+
+  function bruteForce(){
+    var checks = 0;
+    for(var i=0;i<pts.length;i++) pts[i].hit = false;
+    for(var i=0;i<pts.length;i++){
+      for(var j=i+1;j<pts.length;j++){
+        checks++;
+        var a = pts[i], b = pts[j];
+        var d2 = (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
+        if(d2 < 100){ a.hit = true; b.hit = true; }
+      }
+    }
+    return checks;
+  }
+
+  function spatialHash(){
+    var grid = {};
+    pts.forEach(function(p, idx){
+      var key = Math.floor(p.x/cellSize) + ',' + Math.floor(p.y/cellSize);
+      (grid[key] = grid[key] || []).push(idx);
+    });
+    var checks = 0;
+    for(var i=0;i<pts.length;i++) pts[i].hit = false;
+    pts.forEach(function(p, i){
+      var cx = Math.floor(p.x/cellSize), cy = Math.floor(p.y/cellSize);
+      for(var dx=-1; dx<=1; dx++){
+        for(var dy=-1; dy<=1; dy++){
+          var key = (cx+dx) + ',' + (cy+dy);
+          var bucket = grid[key];
+          if(!bucket) continue;
+          bucket.forEach(function(j){
+            if(j <= i) return;
+            checks++;
+            var q = pts[j];
+            var d2 = (p.x-q.x)*(p.x-q.x) + (p.y-q.y)*(p.y-q.y);
+            if(d2 < 100){ p.hit = true; q.hit = true; }
+          });
+        }
+      }
+    });
+    return checks;
+  }
+
+  var collVisible = true;
+  var collObserver = new IntersectionObserver(function(entries){
+    collVisible = entries[0].isIntersecting;
+  }, {threshold: 0.05});
+  collObserver.observe(canvas);
+
+  function step(){
+    if(!collVisible){ requestAnimationFrame(step); return; }
+    pts.forEach(function(p){
+      p.x += p.dx; p.y += p.dy;
+      if(p.x<0||p.x>w) p.dx*=-1;
+      if(p.y<0||p.y>h) p.dy*=-1;
+    });
+    var checks = mode === 'hash' ? spatialHash() : bruteForce();
+    var n = pts.length;
+    checksEl.textContent = checks;
+    naiveEl.textContent = Math.round(n*(n-1)/2);
+
+    ctx.fillStyle = '#0d0912';
+    ctx.fillRect(0,0,w,h);
+    pts.forEach(function(p){
+      ctx.fillStyle = p.hit ? '#e05a5a' : '#9c86d6';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+      ctx.fill();
+    });
+    requestAnimationFrame(step);
+  }
+
+  var btnHash = document.getElementById('btnHash'), btnBrute = document.getElementById('btnBrute');
+  btnHash.addEventListener('click', function(){ mode='hash'; modeEl.textContent='spatial hash'; btnHash.classList.add('primary'); btnBrute.classList.remove('primary'); });
+  btnBrute.addEventListener('click', function(){ mode='brute'; modeEl.textContent='brute force'; btnBrute.classList.add('primary'); btnHash.classList.remove('primary'); });
+  var collCountBtns = [document.getElementById('btnColl80'), document.getElementById('btnColl200'), document.getElementById('btnColl400')];
+  function selectCollCount(btn, n){ collCountBtns.forEach(function(b){ b.classList.remove('primary'); }); btn.classList.add('primary'); build(n); }
+  collCountBtns[0].addEventListener('click', function(){ selectCollCount(collCountBtns[0], 80); });
+  collCountBtns[1].addEventListener('click', function(){ selectCollCount(collCountBtns[1], 200); });
+  collCountBtns[2].addEventListener('click', function(){ selectCollCount(collCountBtns[2], 400); });
+  build(200);
+  requestAnimationFrame(step);
+})();
+
+(function(){
+  var input = document.getElementById('debounceInput');
+  var countEl = document.getElementById('debounceCount');
+  var modeEl = document.getElementById('debounceMode');
+  var mode = 'debounced', count = 0, timer;
+
+  function fire(){ count++; countEl.textContent = count; }
+  input.addEventListener('input', function(){
+    if(mode === 'instant'){
+      fire();
+    } else {
+      clearTimeout(timer);
+      timer = setTimeout(fire, 300);
+    }
+  });
+  var btnDebounced = document.getElementById('btnDebounced'), btnInstant = document.getElementById('btnInstant');
+  btnDebounced.addEventListener('click', function(){ clearTimeout(timer); mode='debounced'; modeEl.textContent='debounced'; btnDebounced.classList.add('primary'); btnInstant.classList.remove('primary'); });
+  btnInstant.addEventListener('click', function(){ clearTimeout(timer); mode='instant'; modeEl.textContent='instant'; btnInstant.classList.add('primary'); btnDebounced.classList.remove('primary'); });
+  document.getElementById('btnResetDebounce').addEventListener('click', function(){ count=0; countEl.textContent=0; });
+})();
+
+(function(){
+  var strip = document.getElementById('lazyStrip');
+  var countEl = document.getElementById('lazyCount');
+  var modeEl = document.getElementById('lazyMode');
+  var mode = 'lazy', observer, total = 16;
+
+  function build(){
+    if(observer){ observer.disconnect(); observer = null; }
+    strip.innerHTML = '';
+    for(var i=1;i<=total;i++){
+      var b = document.createElement('div');
+      b.className = 'lazy-block'; b.textContent = i;
+      strip.appendChild(b);
+    }
+    countEl.textContent = 0;
+    if(mode === 'eager'){
+      Array.prototype.forEach.call(strip.children, function(b){ b.classList.add('loaded'); });
+      countEl.textContent = total;
+    } else {
+      observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('loaded');
+            observer.unobserve(entry.target);
+            countEl.textContent = strip.querySelectorAll('.loaded').length;
+          }
+        });
+      }, {root: strip, threshold: 0.6});
+      Array.prototype.forEach.call(strip.children, function(b){ observer.observe(b); });
+    }
+  }
+  var btnLazy = document.getElementById('btnLazy'), btnEager = document.getElementById('btnEager');
+  btnLazy.addEventListener('click', function(){ mode='lazy'; modeEl.textContent='lazy'; btnLazy.classList.add('primary'); btnEager.classList.remove('primary'); build(); });
+  btnEager.addEventListener('click', function(){ mode='eager'; modeEl.textContent='eager'; btnEager.classList.add('primary'); btnLazy.classList.remove('primary'); build(); });
+  build();
+})();
+
+(function(){
+  var form = document.getElementById('miniForm');
+  var email = document.getElementById('femail');
+  var error = document.getElementById('femailError');
+  var modeEl = document.getElementById('formMode');
+  var mode = 'live';
+
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  email.addEventListener('input', function(){
+    if(mode === 'live'){
+      error.textContent = email.value.length === 0 ? '' : (isValidEmail(email.value) ? '' : 'Enter a valid email');
+    } else {
+      error.textContent = '';
+    }
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(mode === 'silent'){
+      if(!isValidEmail(email.value)) return;
+      error.textContent = '';
+    } else {
+      if(!isValidEmail(email.value)){
+        error.textContent = 'Enter a valid email before submitting';
+        email.focus();
+        return;
+      }
+      error.style.color = 'var(--good)';
+      error.textContent = 'Looks good, this would submit.';
+    }
+  });
+  var btnLiveForm = document.getElementById('btnLiveForm'), btnSilentForm = document.getElementById('btnSilentForm');
+  btnLiveForm.addEventListener('click', function(){ mode='live'; modeEl.textContent='live and accessible'; error.style.color=''; error.textContent=''; btnLiveForm.classList.add('primary'); btnSilentForm.classList.remove('primary'); });
+  btnSilentForm.addEventListener('click', function(){ mode='silent'; modeEl.textContent='silent'; error.textContent=''; btnSilentForm.classList.add('primary'); btnLiveForm.classList.remove('primary'); });
+})();
+
+(function(){
+  var status = document.getElementById('kbStatus');
+  document.getElementById('fakeBtn').addEventListener('click', function(){
+    status.textContent = 'mouse click on the fake div';
+  });
+  document.getElementById('realBtn').addEventListener('click', function(e){
+    status.textContent = (e.detail === 0) ? 'keyboard, on the real button' : 'mouse click on the real button';
+  });
+})();
+</script>
+</body>
+</html>
